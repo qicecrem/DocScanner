@@ -1,0 +1,326 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>SettingsDialog</class>
+ <widget class="QDialog" name="SettingsDialog">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>550</width>
+    <height>380</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>⚙️ 系统配置中心</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">/* 基础对话框背景 */
+QDialog { background-color: #1e1e1e; font-family: &quot;Microsoft YaHei&quot;; }
+
+/* 标签文字 */
+QLabel { color: #cccccc; font-size: 13px; font-weight: bold; }
+
+/* 选项卡容器与面板 */
+QTabWidget::pane { border: 1px solid #3a3a3a; background: #252525; border-radius: 6px; top: -1px; }
+QTabBar::tab { background: #1e1e1e; color: #888888; padding: 10px 20px; border: 1px solid #3a3a3a; border-bottom: none; border-top-left-radius: 6px; border-top-right-radius: 6px; margin-right: 2px; font-weight: bold; font-size: 13px; }
+QTabBar::tab:selected { background: #252525; color: #ffffff; border-bottom: 1px solid #252525; }
+QTabBar::tab:hover:!selected { background: #2a2a2a; color: #aaaaaa; }
+
+/* 输入框 */
+QLineEdit { background-color: #181818; color: #ffffff; border: 1px solid #444444; border-radius: 4px; padding: 6px 10px; font-size: 12px; }
+QLineEdit:focus { border: 1px solid #0078d4; }
+
+/* 按钮组合 */
+QPushButton { background-color: #333333; color: white; border: none; border-radius: 4px; padding: 8px 15px; font-size: 13px; font-weight: bold; }
+QPushButton:hover { background-color: #444444; }
+QPushButton:pressed { background-color: #222222; }
+
+/* 主题色按钮 (如浏览按钮) */
+QPushButton#btnBrowseModel, QPushButton#btnBrowseTess { background-color: #0078d4; }
+QPushButton#btnBrowseModel:hover, QPushButton#btnBrowseTess:hover { background-color: #3298fe; }
+
+/* 下拉框与微调框 */
+QComboBox, QSpinBox { background-color: #181818; color: white; border: 1px solid #444444; border-radius: 4px; padding: 6px 10px; font-size: 13px; }
+QComboBox::drop-down, QSpinBox::up-button, QSpinBox::down-button { border: none; }
+QComboBox QAbstractItemView { background-color: #181818; color: white; selection-background-color: #0078d4; border: 1px solid #444444; }</string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <property name="spacing">
+    <number>15</number>
+   </property>
+   <property name="leftMargin">
+    <number>20</number>
+   </property>
+   <property name="topMargin">
+    <number>20</number>
+   </property>
+   <property name="rightMargin">
+    <number>20</number>
+   </property>
+   <property name="bottomMargin">
+    <number>20</number>
+   </property>
+   <item>
+    <widget class="QTabWidget" name="tabWidget">
+     <property name="currentIndex">
+      <number>0</number>
+     </property>
+     <widget class="QWidget" name="tabModels">
+      <attribute name="title">
+       <string>🧠 模型与路径配置</string>
+      </attribute>
+      <layout class="QVBoxLayout" name="verticalLayout_2">
+       <property name="spacing">
+        <number>25</number>
+       </property>
+       <property name="leftMargin">
+        <number>20</number>
+       </property>
+       <property name="topMargin">
+        <number>30</number>
+       </property>
+       <property name="rightMargin">
+        <number>20</number>
+       </property>
+       <property name="bottomMargin">
+        <number>30</number>
+       </property>
+       <item>
+        <layout class="QVBoxLayout" name="vLayoutModel">
+         <property name="spacing">
+          <number>8</number>
+         </property>
+         <item>
+          <widget class="QLabel" name="label">
+           <property name="text">
+            <string>AI 文档边缘检测模型 (.onnx):</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <layout class="QHBoxLayout" name="hLayoutModel">
+           <property name="spacing">
+            <number>10</number>
+           </property>
+           <item>
+            <widget class="QLineEdit" name="editModelPath"/>
+           </item>
+           <item>
+            <widget class="QPushButton" name="btnBrowseModel">
+             <property name="text">
+              <string>浏览...</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <layout class="QVBoxLayout" name="vLayoutOCR">
+         <property name="spacing">
+          <number>8</number>
+         </property>
+         <item>
+          <widget class="QLabel" name="label_3">
+           <property name="text">
+            <string>OCR 文字识别语言包目录 (tessdata):</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <layout class="QHBoxLayout" name="hLayoutOCR">
+           <property name="spacing">
+            <number>10</number>
+           </property>
+           <item>
+            <widget class="QLineEdit" name="editTessPath"/>
+           </item>
+           <item>
+            <widget class="QPushButton" name="btnBrowseTess">
+             <property name="text">
+              <string>浏览...</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <spacer name="verticalSpacer_tab1">
+         <property name="orientation">
+          <enum>Qt::Orientation::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>40</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="tabPreferences">
+      <attribute name="title">
+       <string>🎨 默认处理偏好</string>
+      </attribute>
+      <layout class="QVBoxLayout" name="verticalLayout_3">
+       <property name="spacing">
+        <number>25</number>
+       </property>
+       <property name="leftMargin">
+        <number>20</number>
+       </property>
+       <property name="topMargin">
+        <number>30</number>
+       </property>
+       <property name="rightMargin">
+        <number>20</number>
+       </property>
+       <property name="bottomMargin">
+        <number>30</number>
+       </property>
+       <item>
+        <layout class="QHBoxLayout" name="hLayoutFilter">
+         <property name="spacing">
+          <number>15</number>
+         </property>
+         <item>
+          <widget class="QLabel" name="label_2">
+           <property name="text">
+            <string>启动时默认滤镜模式:</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QComboBox" name="comboDefaultFilter">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <item>
+            <property name="text">
+             <string>原图矫正 (Original)</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>增强显色 (Magic Color)</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>省墨模式 (Grayscale)</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>黑白文档 (B&amp;W - 推荐OCR)</string>
+            </property>
+           </item>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="hLayoutCurve">
+         <property name="spacing">
+          <number>15</number>
+         </property>
+         <item>
+          <widget class="QLabel" name="label_4">
+           <property name="text">
+            <string>启动时默认曲面校正强度:</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QSpinBox" name="spinDefaultCurve">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="minimum">
+            <number>-100</number>
+           </property>
+           <property name="maximum">
+            <number>100</number>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <spacer name="verticalSpacer_tab2">
+         <property name="orientation">
+          <enum>Qt::Orientation::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>40</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="tabAbout">
+      <attribute name="title">
+       <string>ℹ️ 关于系统</string>
+      </attribute>
+      <layout class="QVBoxLayout" name="verticalLayout_4">
+       <item>
+        <widget class="QLabel" name="labelAbout">
+         <property name="text">
+          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:18pt; font-weight:700; color:#0078d4;&quot;&gt;AI 智能文档扫描与 OCR 识别系统&lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:10pt; color:#888888;&quot;&gt;版本 1.0.0 Pro&lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:10pt; color:#cccccc;&quot;&gt;基于 Qt6, OpenCV 4, U²-Net 与 Tesseract OCR 构建。&lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;&lt;br/&gt;&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:9pt; color:#666666;&quot;&gt;版权所有 © 2024&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignmentFlag::AlignCenter</set>
+         </property>
+         <property name="wordWrap">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </widget>
+   </item>
+   <item>
+    <widget class="QDialogButtonBox" name="buttonBox">
+     <property name="orientation">
+      <enum>Qt::Orientation::Horizontal</enum>
+     </property>
+     <property name="standardButtons">
+      <set>QDialogButtonBox::StandardButton::Cancel|QDialogButtonBox::StandardButton::Ok</set>
+     </property>
+     <property name="centerButtons">
+      <bool>false</bool>
+     </property>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections>
+  <connection>
+   <sender>buttonBox</sender>
+   <signal>accepted()</signal>
+   <receiver>SettingsDialog</receiver>
+   <slot>accept()</slot>
+  </connection>
+  <connection>
+   <sender>buttonBox</sender>
+   <signal>rejected()</signal>
+   <receiver>SettingsDialog</receiver>
+   <slot>reject()</slot>
+  </connection>
+ </connections>
+</ui>

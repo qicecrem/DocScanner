@@ -1,0 +1,514 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1300</width>
+    <height>850</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>AI 智能文档扫描与多页处理工作流</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">/* ======== 全局背景与字体 ======== */
+QMainWindow { background-color: #181818; font-family: &quot;Microsoft YaHei&quot;, &quot;Segoe UI&quot;; }
+QLabel { color: #d0d0d0; font-size: 13px; font-weight: bold; }
+
+/* ======== 左侧面板与容器 ======== */
+QFrame#controlFrame { background-color: #202020; border-right: 1px solid #2d2d2d; }
+QGroupBox { font-weight: bold; border: 1px solid #333333; border-radius: 6px; margin-top: 12px; padding-top: 15px; background-color: #252525; }
+QGroupBox::title { subcontrol-origin: margin; subcontrol-position: top left; left: 10px; color: #aaaaaa; padding: 0 5px; }
+
+/* ======== 横向缩略图列表 ======== */
+QListWidget#thumbnailList { background-color: #1a1a1a; border: 1px solid #333; border-radius: 6px; padding: 5px; }
+QListWidget#thumbnailList::item { color: #aaaaaa; border-radius: 4px; border: 2px solid transparent; }
+QListWidget#thumbnailList::item:selected { border: 2px solid #0e639c; background-color: #2a2d30; color: #ffffff; }
+
+/* ======== 极简低饱和度按钮 ======== */
+QPushButton { background-color: #333333; color: #dddddd; border: 1px solid #444444; border-radius: 5px; font-size: 13px; padding: 8px; font-weight: bold; }
+QPushButton:hover { background-color: #404040; border-color: #555555; }
+QPushButton:pressed { background-color: #222222; }
+QPushButton:disabled { background-color: #1e1e1e; color: #555555; border-color: #2a2a2a; }
+
+/* 核心强调操作使用低饱和度科技蓝 */
+QPushButton#btnScanAI, QPushButton#btnCrop, QPushButton#btnExportPDF { background-color: #0e639c; color: white; border-color: #1177bb; }
+QPushButton#btnScanAI:hover, QPushButton#btnCrop:hover, QPushButton#btnExportPDF:hover { background-color: #1177bb; border-color: #1ebaff; }
+QPushButton#btnExportPDF { font-size: 14px; }
+
+/* ======== 输入框与下拉框 ======== */
+QComboBox { background-color: #1a1a1a; color: #cccccc; border: 1px solid #444; border-radius: 4px; padding: 5px 10px; }
+QComboBox::drop-down { border: none; }
+QComboBox QAbstractItemView { background-color: #1a1a1a; color: white; selection-background-color: #0e639c; border: 1px solid #555; }
+
+/* ======== 滑动条 ======== */
+QSlider::groove:horizontal { border: 1px solid #333; height: 6px; background: #1a1a1a; border-radius: 3px; }
+QSlider::handle:horizontal { background: #666666; width: 14px; margin: -4px 0; border-radius: 7px; }
+QSlider::handle:horizontal:hover { background: #0e639c; }
+
+/* ======== 分屏器拖动条 ======== */
+QSplitter::handle { background-color: #2d2d2d; margin: 2px; border-radius: 2px; }
+QSplitter::handle:vertical { height: 4px; }
+QSplitter::handle:horizontal { width: 4px; }
+QSplitter::handle:hover { background-color: #0e639c; }</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <layout class="QHBoxLayout" name="horizontalLayout">
+    <property name="spacing">
+     <number>0</number>
+    </property>
+    <property name="leftMargin">
+     <number>0</number>
+    </property>
+    <property name="topMargin">
+     <number>0</number>
+    </property>
+    <property name="rightMargin">
+     <number>0</number>
+    </property>
+    <property name="bottomMargin">
+     <number>0</number>
+    </property>
+    <item>
+     <widget class="QFrame" name="controlFrame">
+      <property name="minimumSize">
+       <size>
+        <width>280</width>
+        <height>0</height>
+       </size>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>280</width>
+        <height>16777215</height>
+       </size>
+      </property>
+      <layout class="QVBoxLayout" name="verticalLayout">
+       <property name="spacing">
+        <number>12</number>
+       </property>
+       <property name="leftMargin">
+        <number>15</number>
+       </property>
+       <property name="topMargin">
+        <number>15</number>
+       </property>
+       <property name="rightMargin">
+        <number>15</number>
+       </property>
+       <property name="bottomMargin">
+        <number>15</number>
+       </property>
+       <item>
+        <widget class="QPushButton" name="btnSettings">
+         <property name="minimumSize">
+          <size>
+           <width>0</width>
+           <height>35</height>
+          </size>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">background-color: transparent; border: 1px solid #444; color: #aaa;</string>
+         </property>
+         <property name="text">
+          <string>⚙️ 系统配置中心</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QGroupBox" name="groupBox">
+         <property name="title">
+          <string>1. 导入、旋转与识别</string>
+         </property>
+         <layout class="QVBoxLayout" name="verticalLayout_4">
+          <property name="spacing">
+           <number>10</number>
+          </property>
+          <item>
+           <widget class="QPushButton" name="btnLoadImage">
+            <property name="minimumSize">
+             <size>
+              <width>0</width>
+              <height>40</height>
+             </size>
+            </property>
+            <property name="text">
+             <string>📂 批量导入图片</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <layout class="QHBoxLayout" name="horizontalLayout_rotate">
+            <property name="spacing">
+             <number>8</number>
+            </property>
+            <item>
+             <widget class="QPushButton" name="btnRotateLeft">
+              <property name="text">
+               <string>⟲ 左转90°</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QPushButton" name="btnRotateRight">
+              <property name="text">
+               <string>⟳ 右转90°</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item>
+           <widget class="QPushButton" name="btnScanAI">
+            <property name="minimumSize">
+             <size>
+              <width>0</width>
+              <height>40</height>
+             </size>
+            </property>
+            <property name="text">
+             <string>🤖 对选中项执行 AI 检测</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="btnScanTraditional">
+            <property name="minimumSize">
+             <size>
+              <width>0</width>
+              <height>35</height>
+             </size>
+            </property>
+            <property name="text">
+             <string>⚡ 传统视觉检测(当前页)</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <widget class="QGroupBox" name="groupBox_2">
+         <property name="title">
+          <string>2. 矫正与滤镜渲染</string>
+         </property>
+         <layout class="QVBoxLayout" name="verticalLayout_5">
+          <property name="spacing">
+           <number>12</number>
+          </property>
+          <item>
+           <widget class="QPushButton" name="btnCrop">
+            <property name="minimumSize">
+             <size>
+              <width>0</width>
+              <height>45</height>
+             </size>
+            </property>
+            <property name="text">
+             <string>✨ 裁剪并应用滤镜 (选中/全部)</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="label">
+            <property name="text">
+             <string>单页画质滤镜：</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QComboBox" name="comboFilter">
+            <property name="minimumSize">
+             <size>
+              <width>0</width>
+              <height>35</height>
+             </size>
+            </property>
+            <item>
+             <property name="text">
+              <string>原图矫正 (Original)</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>增强显色 (Magic Color)</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>省墨模式 (Grayscale)</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>黑白文档 (B&amp;W - OCR推荐)</string>
+             </property>
+            </item>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="label_4">
+            <property name="text">
+             <string>单页 3D 曲面展平强度：</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QSlider" name="sliderDewarp">
+            <property name="minimum">
+             <number>-100</number>
+            </property>
+            <property name="maximum">
+             <number>100</number>
+            </property>
+            <property name="orientation">
+             <enum>Qt::Orientation::Horizontal</enum>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <widget class="QGroupBox" name="groupBox_3">
+         <property name="title">
+          <string>3. 提取与输出</string>
+         </property>
+         <layout class="QVBoxLayout" name="verticalLayout_6">
+          <property name="spacing">
+           <number>12</number>
+          </property>
+          <item>
+           <widget class="QPushButton" name="btnOCR">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
+            <property name="minimumSize">
+             <size>
+              <width>0</width>
+              <height>40</height>
+             </size>
+            </property>
+            <property name="text">
+             <string>📝 OCR 提取当前页文字</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="btnSave">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
+            <property name="minimumSize">
+             <size>
+              <width>0</width>
+              <height>40</height>
+             </size>
+            </property>
+            <property name="text">
+             <string>💾 另存当前单页图片</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="Line" name="line">
+            <property name="orientation">
+             <enum>Qt::Orientation::Horizontal</enum>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="label_5">
+            <property name="styleSheet">
+             <string notr="true">color: #888; font-weight: normal; font-size: 11px;</string>
+            </property>
+            <property name="text">
+             <string>右侧顶部的图片列表支持多选、Ctrl跳选和鼠标拖动排序。点击下方按钮即可一键合成。</string>
+            </property>
+            <property name="wordWrap">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="btnExportPDF">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
+            <property name="minimumSize">
+             <size>
+              <width>0</width>
+              <height>50</height>
+             </size>
+            </property>
+            <property name="text">
+             <string>📄 将选中/全部合并为 PDF</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <spacer name="verticalSpacer">
+         <property name="orientation">
+          <enum>Qt::Orientation::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>40</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+      </layout>
+     </widget>
+    </item>
+    <item>
+     <widget class="QWidget" name="rightWidget" native="true">
+      <layout class="QVBoxLayout" name="verticalLayout_right">
+       <property name="spacing">
+        <number>10</number>
+       </property>
+       <property name="leftMargin">
+        <number>10</number>
+       </property>
+       <property name="topMargin">
+        <number>10</number>
+       </property>
+       <property name="rightMargin">
+        <number>10</number>
+       </property>
+       <property name="bottomMargin">
+        <number>10</number>
+       </property>
+       <item>
+        <widget class="QListWidget" name="thumbnailList">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="minimumSize">
+          <size>
+           <width>0</width>
+           <height>160</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>16777215</width>
+           <height>160</height>
+          </size>
+         </property>
+         <property name="dragDropMode">
+          <enum>QAbstractItemView::InternalMove</enum>
+         </property>
+         <property name="selectionMode">
+          <enum>QAbstractItemView::ExtendedSelection</enum>
+         </property>
+         <property name="iconSize">
+          <size>
+           <width>100</width>
+           <height>120</height>
+          </size>
+         </property>
+         <property name="flow">
+          <enum>QListView::LeftToRight</enum>
+         </property>
+         <property name="viewMode">
+          <enum>QListView::IconMode</enum>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QSplitter" name="mainSplitter">
+         <property name="orientation">
+          <enum>Qt::Orientation::Horizontal</enum>
+         </property>
+         <widget class="QWidget" name="layoutWidgetLeft" native="true">
+          <layout class="QVBoxLayout" name="vLayout1">
+           <property name="spacing">
+            <number>10</number>
+           </property>
+           <item>
+            <widget class="QLabel" name="label_2">
+             <property name="text">
+              <string>原始视图与边缘锚点 (Ctrl+滚轮缩放)</string>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignmentFlag::AlignCenter</set>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="InteractiveView" name="graphicsView">
+             <property name="styleSheet">
+              <string notr="true">border: 1px solid #2d2d2d; background-color: #202020; border-radius: 6px;</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+         <widget class="QWidget" name="layoutWidgetRight" native="true">
+          <layout class="QVBoxLayout" name="vLayout2">
+           <property name="spacing">
+            <number>10</number>
+           </property>
+           <item>
+            <widget class="QLabel" name="label_3">
+             <property name="text">
+              <string>单页矫正与滤镜预览</string>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignmentFlag::AlignCenter</set>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="InteractiveView" name="resultView">
+             <property name="styleSheet">
+              <string notr="true">border: 1px solid #2d2d2d; background-color: #202020; border-radius: 6px;</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>1300</width>
+     <height>22</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QStatusBar" name="statusbar">
+   <property name="styleSheet">
+    <string notr="true">background-color: #0e639c; color: white; font-weight: bold;</string>
+   </property>
+  </widget>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>InteractiveView</class>
+   <extends>QGraphicsView</extends>
+   <header>interactiveview.h</header>
+  </customwidget>
+ </customwidgets>
+ <resources/>
+ <connections/>
+</ui>
